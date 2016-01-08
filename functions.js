@@ -172,3 +172,42 @@ function getScript(url,charset,callback){
 		}
 	}
 }
+
+
+    /**
+     * 滚动到指定元素位置
+     * @param  object elem 元素节点
+     * e.g:
+     *     var elem = document.getElementsByClassName('sample')[0];
+     *     scrollTo(elem);
+     *
+     * @return object
+     */
+    function scrollTo(elem) {
+
+        // 获取文档对象
+        var doc = elem && elem.ownerDocument;
+        if (!doc) {
+            return false;
+        }
+        //  文档的根节点
+        var docElem = doc.documentElement,
+            box = {
+                top: 0,
+                left: 0
+            },
+            isWindow = (doc != null && doc == doc.window),
+            win = isWindow ? doc : (doc.nodeType === 9 ? doc.defaultView || doc.parentWindow : false);
+
+        // 获取元素四边数据
+        if (typeof elem.getBoundingClientRect !== 'undefined') {
+            box = elem.getBoundingClientRect();
+        }
+
+        var offset = {
+            top: box.top + (win.pageYOffset || docElem.scrollTop) - (docElem.clientTop || 0),
+            left: box.left + (win.pageXOffset || docElem.scrollLeft) - (docElem.clientLeft || 0)
+        };
+        document.body.scrollTop = offset.top;
+    }
+
